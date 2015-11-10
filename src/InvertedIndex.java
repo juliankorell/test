@@ -123,6 +123,9 @@ public class InvertedIndex {
     computeScores();
   }
 
+  /**
+   * Compute BM25 scores for every word in the documents.
+   */
   public void computeScores() {
     for (Map.Entry<String, ArrayList<Pair>> entry : invertedLists.entrySet()) {
       String word = entry.getKey();
