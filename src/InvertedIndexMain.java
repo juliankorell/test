@@ -1,9 +1,8 @@
-package src;// Copyright 2013, University of Freiburg,
+package src;
+// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
-
-import src.InvertedIndex;
 
 import java.io.IOException;
 import java.io.Console;
@@ -31,6 +30,9 @@ public class InvertedIndexMain {
       String query = console.readLine("Enter your search"
               + " query (separate words with spaces, enter exit! to leave):")
               .toLowerCase();
+
+      EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
+      bench.readBenchmarkFile();
 
       if (query.equals("exit!")) {
         break;

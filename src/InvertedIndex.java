@@ -1,4 +1,6 @@
-package src;// Copyright 2013, University of Freiburg,
+package src;
+
+// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
@@ -20,7 +22,7 @@ public class InvertedIndex {
    * The inverted lists = a sorted list of document ids, one for each word that
    * occurs at least once in the given collection.
    */
-  protected HashMap<String, ArrayList<Pair>> invertedLists;
+  public HashMap<String, ArrayList<Pair>> invertedLists;
 
   public ArrayList<String> documents;
   public ArrayList<Integer> documentLengths;
