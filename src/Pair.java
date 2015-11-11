@@ -1,4 +1,4 @@
-// Copyright 2013, University of Freiburg,
+package src;// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Julian Korell.
 

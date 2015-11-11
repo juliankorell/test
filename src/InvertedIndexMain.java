@@ -1,7 +1,9 @@
-// Copyright 2013, University of Freiburg,
+package src;// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
+
+import src.InvertedIndex;
 
 import java.io.IOException;
 import java.io.Console;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 public class InvertedIndexMain {
 
   public static void main(String[] args) throws IOException {
-    InvertedIndex invertedIndex = new InvertedIndex();
+    src.InvertedIndex invertedIndex = new InvertedIndex();
     if (args.length != 1) {
       System.out.println("Usage: java -jar InvertedIndexMain.jar <file>");
       System.exit(1);
@@ -36,7 +38,7 @@ public class InvertedIndexMain {
 
       String[] words = query.split("\\W+");
 
-      ArrayList<Pair> queryResult = invertedIndex.processQuery(words);
+      ArrayList<src.Pair> queryResult = invertedIndex.processQuery(words);
 
       if (queryResult.isEmpty() || query.isEmpty()) {
         System.out.println("No hits!");

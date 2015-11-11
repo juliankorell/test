@@ -1,4 +1,4 @@
-// Copyright 2013, University of Freiburg,
+package src;// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
@@ -41,7 +41,7 @@ public class InvertedIndex {
    * Merge sorted lists, keeping duplicates.
    */
   public ArrayList<Pair> merge(ArrayList<Pair> list1,
-                                  ArrayList<Pair> list2) {
+                               ArrayList<Pair> list2) {
 
 //    if (list1.size() == 0) {
 //      return list2;

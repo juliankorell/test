@@ -6,6 +6,9 @@
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.Assert;
+import src.InvertedIndex;
+import src.Pair;
+
 import java.io.IOException;
 
 /**
@@ -15,9 +18,9 @@ public class InvertedIndexTest {
 
   @Test
   public void buildFromTextFile() throws IOException {
-    InvertedIndex ii = new InvertedIndex();
+    src.InvertedIndex ii = new InvertedIndex();
     ii.buildFromTextFile("example2.txt");
-    Pair testPairfirst0 = new Pair(1, 0.9997378915);
+    src.Pair testPairfirst0 = new Pair(1, 0.9997378915);
     Pair testPairfirst1 = new Pair(3, 0.5575685894099074);
     Pair testPairfirst2 = new Pair(2, 0);
     Pair getPair0 = ii.invertedLists.get("first").get(0);
