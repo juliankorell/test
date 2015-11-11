@@ -1,5 +1,4 @@
-package src;
-// Copyright 2013, University of Freiburg,
+package src;// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 public class InvertedIndexMain {
 
   public static void main(String[] args) throws IOException {
-    src.InvertedIndex invertedIndex = new InvertedIndex();
+    src.InvertedIndex invertedIndex = new src.InvertedIndex();
     if (args.length != 1) {
       System.out.println("Usage: java -jar InvertedIndexMain.jar <file>");
       System.exit(1);
