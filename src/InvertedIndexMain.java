@@ -1,4 +1,5 @@
-package src;// Copyright 2013, University of Freiburg,
+package src;
+// Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.
 // Author: Julian Korell.
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class InvertedIndexMain {
 
   public static void main(String[] args) throws IOException {
-    src.InvertedIndex invertedIndex = new src.InvertedIndex();
+    InvertedIndex invertedIndex = new InvertedIndex();
     if (args.length != 1) {
       System.out.println("Usage: java -jar InvertedIndexMain.jar <file>");
       System.exit(1);
@@ -25,13 +26,14 @@ public class InvertedIndexMain {
      * Use exit! to exit the loop and programm.
      * If query has a result, print result and highlight the query words.
      */
+    EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
+    bench.readBenchmarkFile();
+
     while (true) {
       String query = console.readLine("Enter your search"
               + " query (separate words with spaces, enter exit! to leave):")
               .toLowerCase();
 
-      EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
-      bench.readBenchmarkFile();
 
       if (query.equals("exit!")) {
         break;
@@ -39,7 +41,7 @@ public class InvertedIndexMain {
 
       String[] words = query.split("\\W+");
 
-      ArrayList<src.Pair> queryResult = invertedIndex.processQuery(words);
+      ArrayList<Pair> queryResult = invertedIndex.processQuery(words);
 
       if (queryResult.isEmpty() || query.isEmpty()) {
         System.out.println("No hits!");

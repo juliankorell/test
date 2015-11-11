@@ -23,7 +23,7 @@ public class EvaluateBenchmark {
   }
 
   public void readBenchmarkFile() throws IOException {
-    String fileName = "example.txt";
+    String fileName = "benchmarktest.txt";
     FileReader fileReader = new FileReader(fileName);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
 
@@ -46,15 +46,15 @@ public class EvaluateBenchmark {
       ArrayList<Pair> queryResult = ii.processQuery(qWords);
       double result = precisionAtK(queryResult, documentIds);
       precisionAt3.add(result);
-      System.out.println("test");
     }
   }
 
   public double precisionAtK(ArrayList<Pair> queryResultIds,
                                ArrayList<Integer> benchMarkIds) {
+    int queryResultIdsLength = queryResultIds.size();
     int k = 3;
     int count = 0;
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i < k && i  < queryResultIdsLength; i++) {
       int docId = queryResultIds.get(i).documentId;
       if (benchMarkIds.contains(docId)) {
         count++;
