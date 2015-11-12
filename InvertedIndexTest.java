@@ -6,6 +6,8 @@
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.Assert;
+import src.EvaluateBenchmark;
+
 import java.io.IOException;
 
 /**
@@ -121,8 +123,36 @@ public class InvertedIndexTest {
     Assert.assertEquals(scoreForFirst, pairOfFirst.count, 0.1);
   }
   @Test
+  public void precisionAtK() {
+    src.InvertedIndex ii = new src.InvertedIndex();
+    EvaluateBenchmark bench = new EvaluateBenchmark(ii);
+    ArrayList<src.Pair> listOfPairs1 = new ArrayList<>();
+    ArrayList<src.Pair> listOfPairs2 = new ArrayList<>();
+    ArrayList<src.Pair> listOfPairs3 = new ArrayList<>();
+    ArrayList<Integer> relevantIds = new ArrayList<>();
+    listOfPairs1.add(new src.Pair(1, 2));
+    listOfPairs1.add(new src.Pair(2, 1));
+    listOfPairs1.add(new src.Pair(3, 1));
+    listOfPairs2.add(new src.Pair(2, 1));
+    listOfPairs2.add(new src.Pair(4, 3));
+    listOfPairs2.add(new src.Pair(5, 3));
+    listOfPairs2.add(new src.Pair(1, 3));
+    listOfPairs3.add(new src.Pair(1, 3));
+    listOfPairs3.add(new src.Pair(3, 3));
+    relevantIds.add(1);
+    relevantIds.add(2);
+    relevantIds.add(3);
+    double result1 = bench.precisionAtK(listOfPairs1, relevantIds, 3);
+    double result2 = bench.precisionAtK(listOfPairs2, relevantIds, 3);
+    double result3 = bench.precisionAtK(listOfPairs3, relevantIds, 3);
+    Assert.assertEquals(1, result1, 0.0001);
+    Assert.assertEquals(0.333333, result2, 0.0001);
+    Assert.assertEquals(0.666666, result3, 0.0001);
+
+  }
+  @Test
   public void benchmarkPat3() throws Exception {
-    InvertedIndex ii = new InvertedIndex();
+    src.InvertedIndex ii = new src.InvertedIndex();
     ii.buildFromTextFile("example2.txt");
     EvaluateBenchmark bench = new EvaluateBenchmark(ii);
     bench.readBenchmarkFile();

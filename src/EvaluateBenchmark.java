@@ -44,22 +44,32 @@ public class EvaluateBenchmark {
         documentIds.add(documentId);
       }
       ArrayList<Pair> queryResult = ii.processQuery(qWords);
-      double result = precisionAtK(queryResult, documentIds);
+      double result = precisionAtK(queryResult, documentIds, 3);
       precisionAt3.add(result);
     }
   }
 
-  public double precisionAtK(ArrayList<Pair> queryResultIds,
-                               ArrayList<Integer> benchMarkIds) {
-    int queryResultIdsLength = queryResultIds.size();
-    int k = 3;
-    int count = 0;
-    for (int i = 0; i < k && i  < queryResultIdsLength; i++) {
-      int docId = queryResultIds.get(i).documentId;
-      if (benchMarkIds.contains(docId)) {
+  public double precisionAtK(ArrayList<Pair> resultIds,
+                               ArrayList<Integer> relevantIds, double k) {
+    int resultIdsLength = resultIds.size();
+    double count = 0;
+    for (int i = 0; i < k && i  < resultIdsLength; i++) {
+      int docId = resultIds.get(i).documentId;
+      if (relevantIds.contains(docId)) {
         count++;
       }
     }
-    return k / count;
+    return count / k;
+  }
+  
+  public double averagePrecision(ArrayList<Pair> resultIds, 
+                                 ArrayList<Integer> relevantIds) {
+    double numberOfRelevantIds = relevantIds.size();
+    double sum = 0;
+
+    for (int i = 0; i < numberOfRelevantIds; i++) {
+      sum += precisionAtK(resultIds, relevantIds, i + 1);
+    }
+    return sum / numberOfRelevantIds;
   }
 }
