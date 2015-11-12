@@ -6,7 +6,6 @@
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.Assert;
-import src.EvaluateBenchmark;
 
 import java.io.IOException;
 
@@ -124,21 +123,21 @@ public class InvertedIndexTest {
   }
   @Test
   public void precisionAtK() {
-    src.InvertedIndex ii = new src.InvertedIndex();
+    InvertedIndex ii = new InvertedIndex();
     EvaluateBenchmark bench = new EvaluateBenchmark(ii);
-    ArrayList<src.Pair> listOfPairs1 = new ArrayList<>();
-    ArrayList<src.Pair> listOfPairs2 = new ArrayList<>();
-    ArrayList<src.Pair> listOfPairs3 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs1 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs2 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs3 = new ArrayList<>();
     ArrayList<Integer> relevantIds = new ArrayList<>();
-    listOfPairs1.add(new src.Pair(1, 2));
-    listOfPairs1.add(new src.Pair(2, 1));
-    listOfPairs1.add(new src.Pair(3, 1));
-    listOfPairs2.add(new src.Pair(2, 1));
-    listOfPairs2.add(new src.Pair(4, 3));
-    listOfPairs2.add(new src.Pair(5, 3));
-    listOfPairs2.add(new src.Pair(1, 3));
-    listOfPairs3.add(new src.Pair(1, 3));
-    listOfPairs3.add(new src.Pair(3, 3));
+    listOfPairs1.add(new Pair(1, 2));
+    listOfPairs1.add(new Pair(2, 1));
+    listOfPairs1.add(new Pair(3, 1));
+    listOfPairs2.add(new Pair(2, 1));
+    listOfPairs2.add(new Pair(4, 3));
+    listOfPairs2.add(new Pair(5, 3));
+    listOfPairs2.add(new Pair(1, 3));
+    listOfPairs3.add(new Pair(1, 3));
+    listOfPairs3.add(new Pair(3, 3));
     relevantIds.add(1);
     relevantIds.add(2);
     relevantIds.add(3);
@@ -152,7 +151,7 @@ public class InvertedIndexTest {
   }
   @Test
   public void benchmarkPat3() throws Exception {
-    src.InvertedIndex ii = new src.InvertedIndex();
+    InvertedIndex ii = new InvertedIndex();
     ii.buildFromTextFile("example2.txt");
     EvaluateBenchmark bench = new EvaluateBenchmark(ii);
     bench.readBenchmarkFile();

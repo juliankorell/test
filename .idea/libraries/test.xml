@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="test">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/junit-4.9b2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/checkstyle-5.6-all.jar!/" />
+      <root url="jar://$PROJECT_DIR$/InvertedIndexMain.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

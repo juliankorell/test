@@ -1,5 +1,3 @@
-package src;
-
 // Copyright 2013, University of Freiburg,
 // Chair of Algorithms and Data Structures.
 // Author: Hannah Bast <bast@cs.uni-freiburg.de>.

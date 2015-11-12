@@ -4,7 +4,7 @@
         makes your tutor's life a lot easier. -->
     <property name="Main-class" value="InvertedIndexMain" />
     <property name="jar-name" value="${Main-class}" />
-    <property name="src-dir" location="." />
+    <property name="src-dir" location="./src" />
     <property name="bin-dir" location="./bin" />
     <property name="dist-dir" location="./" />
     <property name="junit-jar" location="./junit-4.9b2.jar" />
