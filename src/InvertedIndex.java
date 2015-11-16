@@ -42,15 +42,6 @@ public class InvertedIndex {
    */
   public ArrayList<Pair> merge(ArrayList<Pair> list1,
                                ArrayList<Pair> list2) {
-
-//    if (list1.size() == 0) {
-//      return list2;
-//    }
-//
-//    if (list2.size() == 0) {
-//      return list1;
-//    }
-
     int l1 = 0;
     int l2 = 0;
     ArrayList<Pair> mergedList = new ArrayList<Pair>();
@@ -84,7 +75,7 @@ public class InvertedIndex {
    * one line per document with each line containing the text from the document
    * without newlines.
    */
-  public void buildFromTextFile(String fileName, double kvalue, double bvalue)
+  public void buildFromTextFile(String fileName, double kValue, double bValue)
     throws IOException {
     FileReader fileReader = new FileReader(fileName);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -121,13 +112,13 @@ public class InvertedIndex {
       sum += length;
     }
     averageDocumentLength = sum / documentLengths.size();
-    computeScores(kvalue, bvalue);
+    computeScores(kValue, bValue);
   }
 
   /**
    * Compute BM25 scores for every word in the documents.
    */
-  public void computeScores(double kvalue, double bvalue) {
+  public void computeScores(double kValue, double bValue) {
     for (Map.Entry<String, ArrayList<Pair>> entry : invertedLists.entrySet()) {
       String word = entry.getKey();
       ArrayList<Pair> listOfPairs = entry.getValue();
@@ -137,8 +128,8 @@ public class InvertedIndex {
         double dl = documentLengths.get(pair.documentId - 1);
         double avdl = averageDocumentLength;
         double numberOfDocuments = documents.size();
-        double k = kvalue;
-        double b = bvalue;
+        double k = kValue;
+        double b = bValue;
         double idf = Math.log(numberOfDocuments / df) / Math.log(2.0d);
 
         double score = tf * (k + 1) / (k * (1 - b + b * dl / avdl) + tf)

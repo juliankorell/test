@@ -37,7 +37,7 @@ public class InvertedIndexMain {
         EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
         Tripe result = bench.readBenchmarkFile();
         result.prettyPrint();
-        break;
+        continue;
       }
 
       String[] words = query.split("\\W+");
