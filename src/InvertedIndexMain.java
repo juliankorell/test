@@ -17,7 +17,7 @@ public class InvertedIndexMain {
       System.out.println("Usage: java -jar InvertedIndexMain.jar <file>");
       System.exit(1);
     }
-    invertedIndex.buildFromTextFile(args[0]);
+    invertedIndex.buildFromTextFile(args[0], 1.75, 0.75);
     Console console = System.console();
 
     /**
@@ -25,16 +25,18 @@ public class InvertedIndexMain {
      * Use exit! to exit the loop and programm.
      * If query has a result, print result and highlight the query words.
      */
-    EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
-    bench.readBenchmarkFile();
 
     while (true) {
       String query = console.readLine("Enter your search"
-              + " query (separate words with spaces, enter exit! to leave):")
+              + " query (separate words with spaces, enter bench!"
+              + " to get benchmark results):")
               .toLowerCase();
 
 
-      if (query.equals("exit!")) {
+      if (query.equals("bench!")) {
+        EvaluateBenchmark bench = new EvaluateBenchmark(invertedIndex);
+        Tripe result = bench.readBenchmarkFile();
+        result.prettyPrint();
         break;
       }
 

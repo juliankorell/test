@@ -84,7 +84,8 @@ public class InvertedIndex {
    * one line per document with each line containing the text from the document
    * without newlines.
    */
-  public void buildFromTextFile(String fileName) throws IOException {
+  public void buildFromTextFile(String fileName, double kvalue, double bvalue)
+    throws IOException {
     FileReader fileReader = new FileReader(fileName);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
     int documentId = 0;
@@ -120,13 +121,13 @@ public class InvertedIndex {
       sum += length;
     }
     averageDocumentLength = sum / documentLengths.size();
-    computeScores();
+    computeScores(kvalue, bvalue);
   }
 
   /**
    * Compute BM25 scores for every word in the documents.
    */
-  public void computeScores() {
+  public void computeScores(double kvalue, double bvalue) {
     for (Map.Entry<String, ArrayList<Pair>> entry : invertedLists.entrySet()) {
       String word = entry.getKey();
       ArrayList<Pair> listOfPairs = entry.getValue();
@@ -136,8 +137,8 @@ public class InvertedIndex {
         double dl = documentLengths.get(pair.documentId - 1);
         double avdl = averageDocumentLength;
         double numberOfDocuments = documents.size();
-        double k = 1.75;
-        double b = 0.75;
+        double k = kvalue;
+        double b = bvalue;
         double idf = Math.log(numberOfDocuments / df) / Math.log(2.0d);
 
         double score = tf * (k + 1) / (k * (1 - b + b * dl / avdl) + tf)

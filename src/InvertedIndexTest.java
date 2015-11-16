@@ -14,10 +14,13 @@ import java.io.IOException;
  */
 public class InvertedIndexTest {
 
+  double k = 1.75;
+  double b = 0.75;
+
   @Test
   public void buildFromTextFile() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example2.txt");
+    ii.buildFromTextFile("example2.txt", k, b);
     Pair testPairfirst0 = new Pair(1, 0.9997378915);
     Pair testPairfirst1 = new Pair(3, 0.5575685894099074);
     Pair testPairfirst2 = new Pair(2, 0);
@@ -70,7 +73,7 @@ public class InvertedIndexTest {
   @Test
   public void mergeQuery() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example2.txt");
+    ii.buildFromTextFile("example2.txt", k, b);
     ArrayList<Pair> list1 = new ArrayList<Pair>();
     list1.add(new Pair(1, 0.9997378915));
     list1.add(new Pair(3, 0.5575685894099074));
@@ -88,7 +91,7 @@ public class InvertedIndexTest {
   @Test
   public void documentLengths() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example.txt");
+    ii.buildFromTextFile("example.txt", k, b);
     int docLength1 = ii.documentLengths.get(0);
     int docLength2 = ii.documentLengths.get(1);
     int docLength3 = ii.documentLengths.get(2);
@@ -99,13 +102,13 @@ public class InvertedIndexTest {
   @Test
   public void averageDocumentLength() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example.txt");
+    ii.buildFromTextFile("example.txt", k, b);
     Assert.assertEquals(12.3, ii.averageDocumentLength, 0.1);
   }
   @Test
   public void documentFrequencies() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example2.txt");
+    ii.buildFromTextFile("example2.txt", k, b);
     int docFrequency1 = ii.documentFrequencies.get("first");
     int docFrequency2 = ii.documentFrequencies.get("docum");
     int docFrequency3 = ii.documentFrequencies.get("second");
@@ -116,7 +119,7 @@ public class InvertedIndexTest {
   @Test
   public void computeScores() throws IOException {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example2.txt");
+    ii.buildFromTextFile("example2.txt", k, b);
     double scoreForFirst = 0.999729;
     Pair pairOfFirst = ii.invertedLists.get("first").get(0);
     Assert.assertEquals(scoreForFirst, pairOfFirst.count, 0.1);
@@ -147,15 +150,62 @@ public class InvertedIndexTest {
     Assert.assertEquals(1, result1, 0.0001);
     Assert.assertEquals(0.333333, result2, 0.0001);
     Assert.assertEquals(0.666666, result3, 0.0001);
-
   }
   @Test
-  public void benchmarkPat3() throws Exception {
+  public void averagePrecision() {
     InvertedIndex ii = new InvertedIndex();
-    ii.buildFromTextFile("example2.txt");
     EvaluateBenchmark bench = new EvaluateBenchmark(ii);
-    bench.readBenchmarkFile();
-    double result = bench.precisionAt3.get(0);
-    Assert.assertEquals(1, result, 0.1);
+    ArrayList<Pair> listOfPairs1 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs2 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs3 = new ArrayList<>();
+    ArrayList<Pair> listOfPairs4 = new ArrayList<>();
+    ArrayList<Integer> relevantIds = new ArrayList<>();
+    ArrayList<Integer> relevantIds2 = new ArrayList<>();
+    ArrayList<Integer> relevantIds3 = new ArrayList<>();
+    ArrayList<Integer> relevantIds4 = new ArrayList<>();
+    listOfPairs1.add(new Pair(1, 2));
+    listOfPairs1.add(new Pair(2, 1));
+    listOfPairs1.add(new Pair(3, 1));
+    listOfPairs2.add(new Pair(2, 1));
+    listOfPairs2.add(new Pair(4, 3));
+    listOfPairs2.add(new Pair(5, 3));
+    listOfPairs2.add(new Pair(1, 3));
+    listOfPairs3.add(new Pair(1, 3));
+    listOfPairs3.add(new Pair(3, 3));
+    listOfPairs4.add(new Pair(101, 3));
+    listOfPairs4.add(new Pair(333, 1));
+    listOfPairs4.add(new Pair(23, 3));
+    listOfPairs4.add(new Pair(463, 2));
+    listOfPairs4.add(new Pair(153, 3));
+    listOfPairs4.add(new Pair(8, 6));
+    listOfPairs4.add(new Pair(43, 3));
+
+    relevantIds.add(1);
+    relevantIds.add(2);
+    relevantIds.add(3);
+    relevantIds2.add(7);
+    relevantIds2.add(8);
+    relevantIds2.add(9);
+    relevantIds3.add(1);
+    relevantIds3.add(2);
+    relevantIds3.add(3);
+    relevantIds3.add(4);
+    relevantIds3.add(5);
+    relevantIds4.add(8);
+    relevantIds4.add(23);
+    relevantIds4.add(333);
+
+    double result1 = bench.averagePrecision(listOfPairs1, relevantIds);
+    double result2 = bench.averagePrecision(listOfPairs2, relevantIds);
+    double result3 = bench.averagePrecision(listOfPairs3, relevantIds);
+    double result4 = bench.averagePrecision(listOfPairs1, relevantIds2);
+    double result5 = bench.averagePrecision(listOfPairs1, relevantIds3);
+    double result6 = bench.averagePrecision(listOfPairs4, relevantIds4);
+    Assert.assertEquals(1, result1, 0.0001);
+    Assert.assertEquals(0.5, result2, 0.0001);
+    Assert.assertEquals(0.66666, result3, 0.0001);
+    Assert.assertEquals(0, result4, 0.0001);
+    Assert.assertEquals(0.6, result5, 0.0001);
+    Assert.assertEquals(0.55555, result6, 0.0001);
   }
 }

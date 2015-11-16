@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Julian on 11.11.2015.
@@ -13,17 +14,23 @@ import java.util.ArrayList;
 public class EvaluateBenchmark {
 
   InvertedIndex ii;
-  public ArrayList<Double> precisionAt3;
 
   public EvaluateBenchmark(InvertedIndex ii) {
     this.ii = ii;
-    precisionAt3 = new ArrayList<>();
   }
 
-  public void readBenchmarkFile() throws IOException {
-    String fileName = "benchmarktest.txt";
+  public Tripe readBenchmarkFile() throws IOException {
+    String fileName = "movies-benchmark.txt";
     FileReader fileReader = new FileReader(fileName);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
+    double resultPat3 = 0;
+    double resultPatR = 0;
+    double resultAp = 0;
+
+    double mpAt3;
+    double mpAtR;
+    double map;
+    int count = 0;
 
     while (true) {
 
@@ -33,7 +40,10 @@ public class EvaluateBenchmark {
       if (line == null) {
         break;
       }
-      String[] twoParts = line.split("\t");
+
+      count++;
+
+      String[] twoParts = line.split("\\t");
       String[] qWords = twoParts[0].split(" ");
       String[] docIds = twoParts[1].split(" ");
 
@@ -41,10 +51,18 @@ public class EvaluateBenchmark {
         int documentId = Integer.parseInt(docId);
         documentIds.add(documentId);
       }
+
       ArrayList<Pair> queryResult = ii.processQuery(qWords);
-      double result = precisionAtK(queryResult, documentIds, 3);
-      precisionAt3.add(result);
+
+      resultPat3 += precisionAtK(queryResult, documentIds, 3);
+      resultPatR += precisionAtK(queryResult, documentIds, documentIds.size());
+      resultAp += averagePrecision(queryResult, documentIds);
     }
+    mpAt3 = resultPat3 / count;
+    mpAtR = resultPatR / count;
+    map = resultAp / count;
+
+    return new Tripe(mpAt3, mpAtR, map);
   }
 
   public double precisionAtK(ArrayList<Pair> resultIds,
@@ -59,15 +77,35 @@ public class EvaluateBenchmark {
     }
     return count / k;
   }
-  
-  public double averagePrecision(ArrayList<Pair> resultIds, 
-                                 ArrayList<Integer> relevantIds) {
-    double numberOfRelevantIds = relevantIds.size();
-    double sum = 0;
 
-    for (int i = 0; i < numberOfRelevantIds; i++) {
-      sum += precisionAtK(resultIds, relevantIds, i + 1);
+  public double averagePrecision(ArrayList<Pair> resultIds,
+                                     ArrayList<Integer> relevantIds) {
+    ArrayList<Integer> averagePrecisionList = new ArrayList<>();
+    ArrayList<Integer> resultIdsInt = new ArrayList<>();
+    for (Pair pair : resultIds) {
+      resultIdsInt.add(pair.documentId);
     }
-    return sum / numberOfRelevantIds;
+
+    for (int id : relevantIds) {
+      int relevantId = resultIdsInt.indexOf(id) + 1;
+      averagePrecisionList.add(relevantId);
+    }
+    Collections.sort(averagePrecisionList);
+
+    double count = 0;
+    double countNonZero = 1;
+    double aPsum = 0;
+
+    for (int idPosition : averagePrecisionList) {
+      if (idPosition == 0) {
+        count++;
+        continue;
+      } else {
+        aPsum += countNonZero / idPosition;
+        countNonZero++;
+        count++;
+      }
+    }
+    return aPsum / count;
   }
 }
